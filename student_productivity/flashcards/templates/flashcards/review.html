@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block body_class %}other-bg{% endblock %}
+
+{% block content %}
+
+<h2>Review Flashcards</h2>
+
+{% if card %}
+
+<div class="flashcard">
+    <div class="card-inner" id="cardInner">
+
+        <div class="card-front">
+            {{ card.question }}
+        </div>
+
+        <div class="card-back">
+            {{ card.answer }}
+        </div>
+
+    </div>
+</div>
+
+<!-- BUTTONS -->
+<div style="margin-top: 20px; text-align:center;">
+
+    <button onclick="flipCard()" id="readBtn" class="btn btn-primary">
+        Show Answer
+    </button>
+
+    <a href="/flashcards/delete/{{ card.id }}/" class="btn btn-danger">
+        Delete
+    </a>
+
+</div>
+
+<!-- DIFFICULTY -->
+<div id="difficultyButtons" style="display:none; margin-top: 20px; text-align:center;">
+
+    <a href="/flashcards/review/{{ next_index }}/" class="btn btn-success">Easy</a>
+    <a href="/flashcards/review/{{ next_index }}/" class="btn btn-warning">Medium</a>
+    <a href="/flashcards/review/{{ next_index }}/" class="btn btn-danger">Hard</a>
+
+</div>
+
+{% else %}
+    <p>No flashcards exist yet 😢</p>
+{% endif %}
+
+<script>
+function flipCard() {
+    document.getElementById("cardInner").classList.toggle("flip");
+
+    document.getElementById("difficultyButtons").style.display = "block";
+    document.getElementById("readBtn").innerText = "Answer Shown";
+}
+</script>
+
+{% endblock %}

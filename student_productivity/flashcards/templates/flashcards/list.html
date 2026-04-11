@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block body_class %}other-bg{% endblock %}
+
+{% block content %}
+
+<h2>Your Flashcards</h2>
+
+<p>Total Flashcards: <strong>{{ cards|length }}</strong></p>
+
+<button onclick="openModal()" class="btn btn-primary">
+    + Add Flashcard
+</button>
+
+<a href="/flashcards/review/0/" class="btn btn-success">Review</a>
+
+
+<!-- 💖 MODAL -->
+<div id="flashcardModal" class="modal">
+
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+
+        <h3>Create Flashcard</h3>
+
+        <form method="POST" action="/flashcards/create/">
+            {% csrf_token %}
+            <input type="text" name="question" placeholder="Question" required><br><br>
+            <textarea name="answer" placeholder="Answer" required></textarea><br><br>
+            <button type="submit">Save</button>
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+function openModal() {
+    document.getElementById("flashcardModal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("flashcardModal").style.display = "none";
+}
+</script>
+
+{% endblock %}
