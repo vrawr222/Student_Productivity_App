@@ -1,0 +1,157 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Pomodoro Timer</title>
+    <style>
+        body {
+            font-family: 'Segoe UI';
+            color: white;
+            text-align: center;
+            margin-top: 100px;
+        }
+
+    h1 {
+        font-size: 40px;
+        color: black;
+    }
+
+    #timer {
+        font-size: 80px;
+        margin: 30px 0;
+        color: black;
+    }
+
+    #title{
+        color: black;
+    }
+
+    button {
+        padding: 12px 25px;
+        margin: 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .reset { background: #f44336; color: white; }
+    .break { background: #2196F3; color: white; }
+    .work { background: #FF9800; color: white; }
+
+    .reset:hover{
+        opacity: 0.8;
+    }
+
+    .break:hover{
+        opacity: 0.8;
+    }
+
+    .work:hover{
+        opacity: 0.8;
+    }
+
+</style>
+
+
+</head>
+
+<body style="
+background: url('{% static 'images/app_bg.jpg' %}') no-repeat center center fixed;
+background-size: cover;
+">
+
+
+<h1 id="title">Work Time 🍅</h1>
+
+<div id="timer">25:00</div>
+
+<button class="reset" onclick="resetTimer()">Reset</button>
+<button class="break" onclick="startBreak()">Take Break</button>
+<button class="work" onclick="startWork()">Start Work</button>
+
+<script>
+    let WORK_TIME = 1500; // 25 minutes
+    let BREAK_TIME = 300; // 5 minutes
+
+    let time = WORK_TIME;
+    let timerInterval;
+    let mode = "work";
+
+    function updateDisplay() {
+        let minutes = Math.floor(time / 60);
+        let seconds = time % 60;
+
+        document.getElementById("timer").innerText =
+            String(minutes).padStart(2, '0') + ":" +
+            String(seconds).padStart(2, '0');
+
+        document.getElementById("title").innerText =
+            mode === "work" ? "Work Time 🍅" : "Break Time ☕";
+    }
+
+    function startTimer() {
+        if (timerInterval) return;
+
+        timerInterval = setInterval(() => {
+            if (time > 0) {
+                time--;
+                updateDisplay();
+            } else {
+                clearInterval(timerInterval);
+                timerInterval = null;
+
+                // Switch modes automatically
+                if (mode === "work") {
+                    mode = "break";
+                    time = BREAK_TIME;
+                    alert("Break time!");
+                } else {
+                    mode = "work";
+                    time = WORK_TIME;
+                    alert("Back to work!");
+                }
+
+                updateDisplay();
+                startTimer(); // auto-start next session
+            }
+        }, 1000);
+    }
+
+    function resetTimer() {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        mode = "work";
+        time = WORK_TIME;
+        updateDisplay();
+    }
+
+    function startBreak() {
+        clearInterval(timerInterval);
+        timerInterval = null;
+
+        mode = "break";
+        time = BREAK_TIME;
+
+        updateDisplay();
+        startTimer();
+    }
+
+    function startWork() {
+        clearInterval(timerInterval);
+        timerInterval = null;
+
+        mode = "work";
+        time = WORK_TIME;
+
+        updateDisplay();
+        startTimer();
+    }
+
+    updateDisplay();
+</script>
+
+</body>
+</html>
