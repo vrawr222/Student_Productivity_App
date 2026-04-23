@@ -1,0 +1,17 @@
+{% extends 'tasks/task.html' %}
+{% block content %}
+<h1>Task Details</h1>
+<h2>{{object.title}}</h2>
+<p><bold>Desccription:</bold> {{object.description}}</p>
+<p>
+  {% if object.complete %}
+    Completed
+  {% else %}
+    Pending
+  {% endif %}
+</p>
+<div class="top-btn">
+  <a href="{% url 'tasks' %}">BACK</a>
+</div>
+
+{% endblock %}

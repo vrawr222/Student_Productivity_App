@@ -26,4 +26,7 @@ urlpatterns = [
     path('flashcards/', include('flashcards.urls')),
     path('', include('users.urls')),
     path('pomodoro/', include('pomodoro.urls')),   
+    path('', include('users.urls')), 
+    path('tasks/', include('tasks.urls')),  
 ] + static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
+

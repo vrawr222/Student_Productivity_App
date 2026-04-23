@@ -1,0 +1,11 @@
+{% extends 'tasks/task.html' %}
+{% block content %}
+<h1>Add New Task</h1>
+<form method="POST"> <!--Sends form data to Django.-->
+    {% csrf_token %} <!--Security token required by Django forms-->
+    {{ form.as_p }} <!--Shows all fields automatically.-->
+    <button type="submit">Save </button><br><br>
+    <a href="{% url 'tasks' %}">Back</a>
+</form>
+
+{% endblock %}
